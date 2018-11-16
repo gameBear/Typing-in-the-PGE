@@ -6,9 +6,33 @@
 	std::string l_input;
 	int isTyping = 0;
 	
+	//Okay, an improved verseion.
+
+	//This should be in the olcPixelGameEngine.h
+	
+	//in the variable declarations, just under the enum Key
+	const char localChar[52] = { 'A','a','B','a','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','u','U','V','v','W','w','X','x','Y','y','Z','z'};
+	
+	//in the declarations as a public Hardware interface
+	char GetLetterPressed();
+
+	//as a public function
+	char  PixelGameEngine::GetLetterPressed() {
+		for (int i = 0; i < 26; i++) {
+			Key k = Key(i);
+			if (pKeyboardState[k].bPressed) {
+				if (pKeyboardState[Key::SHIFT].bHeld) {
+					return localChar[i * 2];
+				}
+				else return localChar[i * 2 +1];
+			}
+		}
+		return NULL;
+	}
 
 	//Getting key strokes, add teh rest of the keys you need... could use a swithc case.
-	char getABC() {
+        //IDIT, dont use this one....
+	/*char getABC() {
 		char returnVal = NULL;
 		bool isShift = false;
 		if (GetKey(olc::Key::SHIFT).bHeld) isShift = true;
@@ -33,7 +57,7 @@
 			else return 'e';
 		}
 		return returnVal;
-	}
+	}*/
 
 	//putting together the string
 	bool GetInputString(int &typing, std::string &m_input) {
