@@ -18,9 +18,9 @@
 
 	//as a public function
 	char  PixelGameEngine::GetLetterPressed() {
+		if (pKeyboardState[Key(52)].bPressed) return ' ';
 		for (int i = 0; i < 26; i++) {
-			Key k = Key(i);
-			if (pKeyboardState[k].bPressed) {
+			if (pKeyboardState[Key(i)].bPressed) {
 				if (pKeyboardState[Key::SHIFT].bHeld) {
 					return localChar[i * 2];
 				}
