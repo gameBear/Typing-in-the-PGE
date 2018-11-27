@@ -30,35 +30,6 @@
 		return NULL;
 	}
 
-	//Getting key strokes, add teh rest of the keys you need... could use a swithc case.
-        //IDIT, dont use this one....
-	/*char getABC() {
-		char returnVal = NULL;
-		bool isShift = false;
-		if (GetKey(olc::Key::SHIFT).bHeld) isShift = true;
-		if (GetKey(olc::Key::A).bPressed) {
-			if (isShift) return 'A';
-			else return 'a';
-		}
-		else if (GetKey(olc::Key::B).bPressed) {
-			if (isShift) return 'B';
-			else return 'b';
-		}
-		else if (GetKey(olc::Key::C).bPressed) {
-			if (isShift) return 'C';
-			else return 'c';
-		}
-		else if (GetKey(olc::Key::D).bPressed) {
-			if (isShift) return 'D';
-			else return 'd';
-		}
-		else if (GetKey(olc::Key::E).bPressed) {
-			if (isShift) return 'E';
-			else return 'e';
-		}
-		return returnVal;
-	}*/
-
 	//putting together the string
 	bool GetInputString(int &typing, std::string &m_input) {
 		char newChar = NULL;
