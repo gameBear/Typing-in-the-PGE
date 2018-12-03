@@ -2,55 +2,54 @@
 
 //Add in the start of teh olc::PixelGameEngine class.
 
-	//Variables
-	std::string l_input;
-	int isTyping = 0;
-	
-	//Okay, an improved verseion.
+//Right under teh Key Enum
 
-	//This should be in the olcPixelGameEngine.h
-	
-	//in the variable declarations, just under the enum Key
-	const char localChar[52] = { 'A','a','B','a','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','u','U','V','v','W','w','X','x','Y','y','Z','z'};
-	
-	//in the declarations as a public Hardware interface
-	char GetLetterPressed();
+//This char arrayholds capital and non capital letters along with the numbers 0 to 9
 
-	//as a public function
+	const char localChar[62] = { 'A','a','B','a','C','c','D','d','E','e','F','f','G','g','H','h','I','i','J','j','K','k','L','l','M','m','N','n','O','o','P','p','Q','q','R','r','S','s','T','t','u','U','V','v','W','w','X','x','Y','y','Z','z','0','1','2','3','4','5','6','7','8','9' };
+
+//and rith under the win32
+//IsFocused bool function
+
+////////////////////////////////////// KeyGetter ///////////////////////
 	char  PixelGameEngine::GetLetterPressed() {
 		if (pKeyboardState[Key(52)].bPressed) return ' ';
-		for (int i = 0; i < 26; i++) {
+		for (int i = 0; i < 36; i++) {
 			if (pKeyboardState[Key(i)].bPressed) {
-				if (pKeyboardState[Key::SHIFT].bHeld) {
-					return localChar[i * 2];
+
+				//////////////////////////////// determines if its a letter, and if it is, sees if shift is pressed, then returns the appropiate letter
+				if (i < 26) {
+					if (pKeyboardState[Key::SHIFT].bHeld) {
+						return localChar[i * 2];
+					}
+					else return localChar[i * 2 + 1];
 				}
-				else return localChar[i * 2 +1];
+				///////////// if its not a letter, return the appropiate number
+				else return localChar[i +26];
 			}
 		}
 		return NULL;
 	}
 
-	//putting together the string
-	bool GetInputString(int &typing, std::string &m_input) {
-		char newChar = NULL;
-		if (typing == 2 && GetKey(olc::Key::ENTER).bReleased) {
-			typing = 0;
-			return true;
-		}
-		else if (typing == 1 || typing == 2) {
-			if (typing == 2 && GetKey(olc::Key::ENTER).bReleased) {
-				typing = 0;
-				return true;
-			}
-			else if(typing == 1) typing = 2;
-			else newChar += getABC();
-			if (newChar != NULL) m_input += newChar;
-			return false;
-		}
-		return true;
+	//////////////////////////////////////////////
+	std::string PixelGameEngine::getString(bool isTyping) {
+		static std::string returnString = "";
+		char newLetter = GetLetterPressed();
+		if (isTyping && newLetter != NULL) returnString += newLetter;
+		else if (!isTyping) returnString = "";
+		return returnString;
 	}
+	//////////////////////////////////////////////
 
 
+	//This one is mainly used to avoid the release of enter to reactivate the writing function.
+	void PixelGameEngine::SetKeyStage(Key k /*all the keys will be set to this stage*/, bool stage)
+	{
+		pKeyboardState[k].bPressed = stage;
+		pKeyboardState[k].bHeld = stage;
+		pKeyboardState[k].bReleased = stage;
+	}
+	//////////////////////////////////////////////
 
 //calls and updates
 
@@ -64,10 +63,13 @@
 		}
 
 		//draws to teh screen and actuealy gets teh input as well as erasing when done.
-		if (isTyping == 1 || isTyping == 2) {
-			if (!GetInputString(isTyping, l_input)) {
-				FillRect(50, 50, 300, 20, olc::WHITE);
-				DrawString(54, 54, l_input, olc::BLACK);
+		if (isTyping) {
+			FillRect(screenW * 0.5 - 140, screenH * 0.5, 280, 20, olc::BLACK);
+			std::string myFileName = getString(true);
+			DrawString(screenW * 0.5 -136, screenH * 0.5 + 4, myFileName, olc::GREY);
+			if (GetKey(olc::Key::ENTER).bPressed) {
+				getString(false);
+				SetKeyStage(olc::Key::ENTER, false);
+				isTyping = false;
 			}
-			else l_input = "";
 		}
