@@ -1,6 +1,6 @@
 //Functions and variables:
 
-//Add in the start of teh olc::PixelGameEngine class.
+//Add in the start of teh olc::PixelGameEngine in the PGE header file.
 
 //Right under teh Key Enum
 
@@ -51,7 +51,7 @@
 	}
 	//////////////////////////////////////////////
 
-//calls and updates
+//this here goes in the file where you use the PGE (usueally the Main.cpp or source.cpp file) 
 
 //add in the  onUserUpdate()
 		
